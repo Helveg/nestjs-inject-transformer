@@ -1,0 +1,16 @@
+# dependencies
+/node_modules
+
+# IDE
+/.vscode
+/.idea
+
+# misc
+npm-debug.log
+.DS_Store
+
+# dist
+/dist
+
+# test
+.testdbs/
