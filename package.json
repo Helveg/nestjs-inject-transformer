@@ -1,6 +1,6 @@
 {
   "name": "nestjs-inject-transformer",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Amp up your NestJS and `class-transformer` stack with dependency injected transforms.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
