@@ -28,8 +28,6 @@ which support all options of their `class-transformer` respective counterparts `
 
 ### `InjectTransform`
 
-Replace your `Transform` decorator with the dependency injection enabled `InjectTransform` decorator.
-
 To inject a dependencies pass an array of injection tokens to the `inject` option. They will be passed
 as additional arguments to your transform function, in the order they were given:
 
@@ -75,10 +73,9 @@ export class MyDTO {
 
 ### `InjectType`
 
-This decorator allows you to provide a dependency injection enabled type injector. Like the
-type transformer you can use the type injector's class body to scaffold your dependencies.
-
-Its `inject` function is called with the same arguments as the `Type` function would have been.
+A `TypeInjector` lets you inject types similar to the `Type` decorator. Its `inject` function is
+called with the same arguments as the `Type` function would have been and should return the type
+to be used.
 
 The following example illustrates how you could return different DTO types (and thereby different
 validation schemes when used with `class-validator`), based on a supposed client's 
@@ -89,15 +86,33 @@ configuration:
 class ClientDtoInjector implements TypeInjector {
     constructor(
         private readonly service: ClientConfigurationService
-    ) {
-    }
+    ) {}
 
     inject(type?: TypeHelpOptions) {
         const client = type.object['client'] ?? 'default';
         const clientConfig = this.service.getClientConfiguration(client);
-        const dto = clientConfig.getNestedDTO(type.newObject, type.property);
-        return dto;
+        if (clientConfig.accountType === 'named') {
+            return NamedAccountDTO;
+        } else if (clientConfig.accountType === 'numbered') {
+            return NumberedAccountDTO;
+        }
+        return AccountDTO;
     }
+}
+
+class AccountDTO {
+    @IsString()
+    name: string;
+}
+
+class NamedAccountDTO extends AccountDTO {
+    @IsString()
+    id: string
+}
+
+class NumberedAccountDTO extends AccountDTO  {
+    @IsNumber()
+    id: number
 }
 
 class OpenAccountDTO {
