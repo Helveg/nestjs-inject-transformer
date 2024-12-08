@@ -11,10 +11,24 @@ function renameFiles(dir) {
     if (stats.isDirectory()) {
       renameFiles(filePath);
     }
-    // If it's a .js file, rename it to .mjs
+    // If it's a .mjs file, rename it to .js
     else if (file.endsWith(".mjs")) {
       const newFilePath = filePath.slice(0, -4) + ".js";
       fs.renameSync(filePath, newFilePath);
+
+      // Now, read the file and replace require statements
+      const fileContent = fs.readFileSync(newFilePath, "utf-8");
+      const updatedContent = fileContent.replace(
+        /require\(["']([^"']+)\.mjs["']\)/g,
+        (match, p1) => {
+          return `require("${p1}.js")`;
+        }
+      );
+
+      // If the content was modified, write it back to the file
+      if (updatedContent !== fileContent) {
+        fs.writeFileSync(newFilePath, updatedContent, "utf-8");
+      }
     }
   });
 }
