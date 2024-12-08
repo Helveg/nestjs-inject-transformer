@@ -81,7 +81,7 @@ type transformer you can use the type injector's class body to scaffold your dep
 Its `inject` function is called with the same arguments as the `Type` function would have been.
 
 The following example illustrates how you could return different DTO types (and thereby different
-validation schemes when used in combination with `class-validator`) based on a supposed client's 
+validation schemes when used with `class-validator`), based on a supposed client's 
 configuration:
 
 ```ts
@@ -89,26 +89,28 @@ configuration:
 class ClientDtoInjector implements TypeInjector {
     constructor(
         private readonly service: ClientConfigurationService
-    ) {}
+    ) {
+    }
 
     inject(type?: TypeHelpOptions) {
         const client = type.object['client'] ?? 'default';
         const clientConfig = this.service.getClientConfiguration(client);
         const dto = clientConfig.getNestedDTO(type.newObject, type.property);
-        return dto
+        return dto;
     }
 }
 
 class OpenAccountDTO {
     @IsString()
     client: string;
-    
+
     @ValidateNested()
     @InjectType(ClientDtoInjector)
-    accountInfo: AccountInfoDTO
+    accountInfo: AccountInfoDTO;
 }
 ```
 
 ## 📜 License
 
 `nestjs-inject-transformer` is [MIT licensed](LICENSE).
+
