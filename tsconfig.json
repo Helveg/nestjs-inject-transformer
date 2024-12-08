@@ -2,14 +2,16 @@
   "compilerOptions": {
     "module": "ESNext",
     "target": "ESNext",
-    "declaration": true,
-    "moduleResolution": "Node",
     "esModuleInterop": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "declarationDir": "./dist/types",
+    "moduleResolution": "Node",
     "removeComments": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": false,
-    "outDir": "./dist",
+    "outDir": "./dist/esm",
     "incremental": false
   },
   "exclude": ["node_modules", "dist", "sample", "**/*spec.ts"]

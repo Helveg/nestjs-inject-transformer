@@ -1,19 +1,30 @@
 {
   "name": "nestjs-inject-transformer",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Amp up your NestJS and `class-transformer` stack with dependency injected transforms.",
-  "main": "dist/index.mjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.mts",
+  "main": "./dist/cjs/index.mjs",
+  "module": "./dist/esm/index.mjs",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/index.mjs",
+      "import": "./dist/esm/index.mjs"
+    }
+  },
   "directories": {
     "lib": "lib"
   },
   "files": [
     "dist",
-    "src"
+    "lib"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "run-s build:esm build:cjs build:types",
+    "build:esm": "tsc",
+    "build:cjs": "run-s build:cjs:build build:cjs:rename",
+    "build:cjs:build": "tsc -p tsconfig.cjs.json",
+    "build:cjs:rename": "node ./scripts/rename-cjs.js",
+    "build:types": "tsc --emitDeclarationOnly",
     "prebuild": "rimraf dist",
     "prepare": "npm run build",
     "dev": "npm run prebuild && tsc -w",
@@ -74,5 +85,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "dependencies": {
+    "npm-run-all": "^4.1.5"
   }
 }
