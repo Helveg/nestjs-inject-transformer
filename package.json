@@ -1,13 +1,13 @@
 {
   "name": "nestjs-inject-transformer",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Amp up your NestJS and `class-transformer` stack with dependency injected transforms.",
-  "main": "./dist/cjs/index.mjs",
+  "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.mjs",
-  "types": "./dist/types/index.d.ts",
+  "types": "./dist/types/index.d.mts",
   "exports": {
     ".": {
-      "require": "./dist/cjs/index.mjs",
+      "require": "./dist/cjs/index.js",
       "import": "./dist/esm/index.mjs"
     }
   },
@@ -15,8 +15,7 @@
     "lib": "lib"
   },
   "files": [
-    "dist",
-    "lib"
+    "dist"
   ],
   "scripts": {
     "build": "run-s build:esm build:cjs build:types",
