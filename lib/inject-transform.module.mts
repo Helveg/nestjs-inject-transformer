@@ -6,11 +6,11 @@ import {
   Optional,
 } from "@nestjs/common";
 import { ModuleRef } from "@nestjs/core";
-import { AppStateService } from "./app-state.service";
-import { InjectTransformContainerOptions } from "./interfaces";
-import { InjectLifecycleError } from "./exceptions.js";
-import { InjectTransformModuleOptions } from "./interfaces/inject-transform-module-options.interface.js";
-import { INJECT_TRANSFORM_MODULE_OPTIONS } from "./symbols.js";
+import { AppStateService } from "./app-state.service.mjs";
+import { InjectTransformContainerOptions } from "./interfaces/index.mjs";
+import { InjectLifecycleError } from "./exceptions.mjs";
+import { InjectTransformModuleOptions } from "./interfaces/inject-transform-module-options.interface.mjs";
+import { INJECT_TRANSFORM_MODULE_OPTIONS } from "./symbols.mjs";
 
 @Module({ providers: [AppStateService] })
 export class InjectTransformModule {

@@ -1,9 +1,9 @@
 import { Transform } from "class-transformer";
 import "reflect-metadata";
-import { InjectTransformModule } from "../inject-transform.module.js";
-import { InjectTransformOptions } from "../interfaces/index.js";
-import { InjectTransformFn } from "../interfaces/inject-transform-fn.interface.js";
-import { InjectTransformer } from "../interfaces/inject-transformer.interface.js";
+import { InjectTransformModule } from "../inject-transform.module.mjs";
+import { InjectTransformOptions } from "../interfaces/index.mjs";
+import { InjectTransformFn } from "../interfaces/inject-transform-fn.interface.mjs";
+import { InjectTransformer } from "../interfaces/inject-transformer.interface.mjs";
 import { Type } from "@nestjs/common";
 import { isClass } from "../util/is-class.js";
 

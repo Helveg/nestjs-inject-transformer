@@ -1,6 +1,6 @@
 lib
 sample
-index.ts
+index.mts
 package-lock.json
 .eslintrc.js
 tsconfig.json

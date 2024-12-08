@@ -1,9 +1,10 @@
 {
   "name": "nestjs-inject-transformer",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Amp up your NestJS and `class-transformer` stack with dependency injected transforms.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.mts",
   "directories": {
     "lib": "lib"
   },
@@ -61,7 +62,7 @@
     "rootDir": "lib",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
-      "^.+\\.(t|j)s$": [
+      "^.+\\.m?(t|j)s$": [
         "ts-jest",
         {
           "tsconfig": "./tsconfig.json"
@@ -69,7 +70,7 @@
       ]
     },
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "**/*.m?(t|j)s"
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"

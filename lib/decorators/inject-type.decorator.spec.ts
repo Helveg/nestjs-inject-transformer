@@ -1,9 +1,9 @@
 import { Inject, Injectable, Module, Type } from "@nestjs/common";
-import { InjectTransformModule } from "../inject-transform.module.js";
-import { TypeInjector } from "../interfaces/type-injector.interface.js";
+import { InjectTransformModule } from "../inject-transform.module.mjs";
+import { TypeInjector } from "../interfaces/type-injector.interface.mjs";
 import { plainToInstance, Transform, TypeHelpOptions } from "class-transformer";
 import { NestFactory } from "@nestjs/core";
-import { InjectType } from "./inject-type.decorator.js";
+import { InjectType } from "./inject-type.decorator.mjs";
 
 const DTO_CONFIGURATION = Symbol("DtoConfiguration");
 

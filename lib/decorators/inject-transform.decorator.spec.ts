@@ -1,10 +1,10 @@
 import { plainToInstance, TransformFnParams } from "class-transformer";
 import { Injectable, Module } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
-import { InjectTransform } from "./index.js";
-import { InjectTransformModule } from "../inject-transform.module.js";
-import { InjectLifecycleError } from "../exceptions.js";
-import { InjectTransformer } from "../interfaces/inject-transformer.interface.js";
+import { InjectTransform } from "./index.mjs";
+import { InjectTransformModule } from "../inject-transform.module.mjs";
+import { InjectLifecycleError } from "../exceptions.mjs";
+import { InjectTransformer } from "../interfaces/inject-transformer.interface.mjs";
 
 const TEST_TOKEN = Symbol("TestToken");
 const MISSING_TOKEN = Symbol("MissingToken");

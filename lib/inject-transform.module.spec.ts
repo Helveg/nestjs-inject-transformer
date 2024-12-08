@@ -1,9 +1,9 @@
-import { InjectTransformModule } from "./inject-transform.module.js";
+import { InjectTransformModule } from "./inject-transform.module.mjs";
 import { Module } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
-import { InjectTransform } from "./decorators/index.js";
+import { InjectTransform } from "./decorators/index.mjs";
 import { plainToInstance } from "class-transformer";
-import { InjectLifecycleError } from "./exceptions.js";
+import { InjectLifecycleError } from "./exceptions.mjs";
 
 @Module({ imports: [InjectTransformModule] })
 class TestAppModuleWithImport {}
