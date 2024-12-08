@@ -83,7 +83,7 @@ configuration:
 
 ```ts
 @Injectable()
-class ClientDtoInjector implements TypeInjector {
+class AccountDtoInjector implements TypeInjector {
     constructor(
         private readonly service: ClientConfigurationService
     ) {}
@@ -115,13 +115,13 @@ class NumberedAccountDTO extends AccountDTO  {
     id: number
 }
 
-class OpenAccountDTO {
+class CreateAccountDTO {
     @IsString()
     client: string;
 
     @ValidateNested()
-    @InjectType(ClientDtoInjector)
-    accountInfo: AccountInfoDTO;
+    @InjectType(AccountDtoInjector)
+    accountInfo: NamedAccountDTO | NumberedAccountDTO;
 }
 ```
 
