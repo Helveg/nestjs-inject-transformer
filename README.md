@@ -53,6 +53,7 @@ Alternatively, you can pass an `InjectTransformer` to tidy up more extensive use
 import {InjectTransform, InjectTransformer} from 'nestjs-inject-transformer';
 import {TransformFnParams} from "class-transformer";
 
+@Injectable()
 export class MyTransformer implements InjectTransformer {
     constructor(
         private readonly dep1: Dependency1,
