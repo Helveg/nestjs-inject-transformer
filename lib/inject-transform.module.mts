@@ -3,18 +3,20 @@ import {
   Inject,
   InjectionToken,
   Module,
+  OnModuleDestroy,
+  OnModuleInit,
   Optional,
 } from "@nestjs/common";
 import { ModuleRef } from "@nestjs/core";
 import { AppStateService } from "./app-state.service.mjs";
-import { InjectTransformContainerOptions } from "./interfaces/index.mjs";
+import { InjectTransformModuleOptions } from "./interfaces/index.mjs";
 import { InjectLifecycleError } from "./exceptions.mjs";
-import { InjectTransformModuleOptions } from "./interfaces/inject-transform-module-options.interface.mjs";
 import { INJECT_TRANSFORM_MODULE_OPTIONS } from "./symbols.mjs";
+import { AsyncLocalStorage } from "node:async_hooks";
 
 @Module({ providers: [AppStateService] })
-export class InjectTransformModule {
-  private static injectTransformModule: InjectTransformModule;
+export class InjectTransformModule implements OnModuleInit, OnModuleDestroy {
+  private static storage = new AsyncLocalStorage<ModuleRef>();
 
   public static forRoot(
     options: InjectTransformModuleOptions = {}
@@ -27,38 +29,19 @@ export class InjectTransformModule {
     };
   }
 
-  public static getInjectTransformContainer(
-    options?: InjectTransformContainerOptions
-  ): {
+  public static getInjectTransformContainer(): {
     get: ModuleRef["get"];
   } {
-    // Retrieve reference to currently running global module
-    const { moduleRef, moduleOptions } =
-      InjectTransformModule.injectTransformModule ??
-      ({} as InjectTransformModule);
-    options = { ...moduleOptions, ...options };
-
-    const appRunning = moduleRef?.get(AppStateService).isRunning ?? false;
-    if (!appRunning && !options.ignoreInjectLifecycle) {
+    const moduleRef = InjectTransformModule.storage.getStore();
+    if (!moduleRef)
       throw new InjectLifecycleError(
-        "Dependency injection in class-transformer unavailable outside of module context." +
-          (!InjectTransformModule.injectTransformModule
-            ? " Did you forget to import the InjectTransformModule?"
-            : "")
+        `Dependency injection in class-transformer only available during app lifecycle.` +
+          ` Did you forget to import the InjectTransformModule?`
       );
-    }
 
     return {
-      get: (token: InjectionToken) => moduleRef?.get(token, { strict: false }),
+      get: (token: InjectionToken) => moduleRef.get(token, { strict: false }),
     };
-  }
-
-  public static getInjectTransformModule() {
-    return this.injectTransformModule;
-  }
-
-  public static clearInjectTransformModule() {
-    this.injectTransformModule = undefined;
   }
 
   constructor(
@@ -66,7 +49,13 @@ export class InjectTransformModule {
     @Inject(INJECT_TRANSFORM_MODULE_OPTIONS)
     @Optional()
     private readonly moduleOptions: InjectTransformModuleOptions
-  ) {
-    InjectTransformModule.injectTransformModule = this;
+  ) {}
+
+  onModuleInit() {
+    InjectTransformModule.storage.enterWith(this.moduleRef);
+  }
+
+  onModuleDestroy() {
+    InjectTransformModule.storage.disable(); // Clean up the storage
   }
 }

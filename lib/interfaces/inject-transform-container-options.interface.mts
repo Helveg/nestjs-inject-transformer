@@ -1,3 +1,1 @@
-export interface InjectTransformContainerOptions {
-  ignoreInjectLifecycle?: boolean;
-}
+export interface InjectTransformContainerOptions {}

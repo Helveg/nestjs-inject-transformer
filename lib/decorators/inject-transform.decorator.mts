@@ -5,7 +5,7 @@ import { InjectTransformOptions } from "../interfaces/index.mjs";
 import { InjectTransformFn } from "../interfaces/inject-transform-fn.interface.mjs";
 import { InjectTransformer } from "../interfaces/inject-transformer.interface.mjs";
 import { Type } from "@nestjs/common";
-import { isClass } from "../util/is-class.js";
+import { isClass } from "../util/is-class.mjs";
 
 export function InjectTransform(
   transformer: InjectTransformFn,
@@ -20,7 +20,7 @@ export function InjectTransform(
   options: InjectTransformOptions = {}
 ) {
   return Transform((params) => {
-    const injector = InjectTransformModule.getInjectTransformContainer(options);
+    const injector = InjectTransformModule.getInjectTransformContainer();
     const providers = options.inject ?? [];
 
     // Unify transformFn <-> transformer

@@ -46,16 +46,6 @@ class TestSubject {
   @InjectTransform(TestTransformer)
   xx: number;
 
-  @InjectTransform(
-    (params, tokenValue: number, service: TestService) =>
-      service.transform(params.value, tokenValue),
-    {
-      inject: [TEST_TOKEN, TestService],
-      ignoreInjectLifecycle: true,
-    }
-  )
-  y: number;
-
   @InjectTransform((params) => 0, { inject: [MISSING_TOKEN] })
   z: number;
 }
@@ -92,15 +82,6 @@ describe("InjectTransform", () => {
     expect(() => plainToInstance(TestSubject, { x: 3 })).toThrow(
       InjectLifecycleError
     );
-  });
-
-  it("should optionally ignore lifecycle errors", async () => {
-    const app = await NestFactory.createApplicationContext(TestAppModule);
-    await app.init();
-    await app.close();
-
-    // TestSubject.y is marked with ignoreLifecycleErrors
-    expect(plainToInstance(TestSubject, { y: 3 }).y).toEqual(15);
   });
 
   it("should error on missing providers", async () => {
